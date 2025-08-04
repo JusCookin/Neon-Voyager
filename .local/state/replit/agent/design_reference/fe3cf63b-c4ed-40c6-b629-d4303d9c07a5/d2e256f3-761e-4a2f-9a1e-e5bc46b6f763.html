@@ -1,0 +1,686 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Voyager - Futuristic Travel Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'neon-cyan': '#00FFFF',
+                        'neon-pink': '#FF00FF',
+                        'neon-purple': '#8B5CF6',
+                        'space-blue': '#0F0F23',
+                        'space-navy': '#1A1A2E',
+                        'space-gray': '#16213E',
+                    },
+                    fontFamily: {
+                        'futuristic': ['Orbitron', 'monospace'],
+                        'sans': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-neon': 'pulse-neon 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 20px #00FFFF, 0 0 40px #00FFFF, 0 0 60px #00FFFF',
+                        'neon-pink': '0 0 20px #FF00FF, 0 0 40px #FF00FF, 0 0 60px #FF00FF',
+                        'neon-purple': '0 0 20px #8B5CF6, 0 0 40px #8B5CF6, 0 0 60px #8B5CF6',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes pulse-neon {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #00FFFF, 0 0 20px #00FFFF, 0 0 30px #00FFFF; }
+            to { text-shadow: 0 0 20px #00FFFF, 0 0 30px #00FFFF, 0 0 40px #00FFFF; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .neon-border {
+            border: 2px solid;
+            border-image: linear-gradient(45deg, #00FFFF, #FF00FF, #8B5CF6, #00FFFF) 1;
+        }
+        
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(15, 15, 35, 0.7);
+        }
+        
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+        
+        .search-glow:focus {
+            box-shadow: 0 0 0 3px rgba(0, 255, 255, 0.3), 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        
+    </style>
+</head>
+<body class="bg-space-blue text-gray-100 font-sans overflow-x-hidden">
+    
+    <!-- @COMPONENT: Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect border-b border-neon-cyan/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-rocket text-2xl text-neon-cyan animate-pulse-neon"></i>
+                    <span class="text-xl font-futuristic font-bold text-neon-cyan">NEON VOYAGER</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#dashboard" class="hover:text-neon-cyan transition-colors">Dashboard</a>
+                    <a href="#destinations" class="hover:text-neon-cyan transition-colors">Destinations</a>
+                    <a href="#itinerary" class="hover:text-neon-cyan transition-colors">Itinerary</a>
+                    <button class="bg-gradient-to-r from-neon-cyan to-neon-pink px-4 py-2 rounded-lg hover-glow text-black font-semibold">
+                        Sign In
+                    </button>
+                </div>
+                <button class="md:hidden text-neon-cyan">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navigation -->
+
+    <!-- @COMPONENT: Hero Section -->
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
+        <!-- Animated Background Placeholder -->
+        <div class="absolute inset-0 bg-gradient-to-br from-space-blue via-space-navy to-space-gray">
+            <!-- Vanta.js background would be implemented here -->
+            <div class="absolute inset-0 opacity-20">
+                <div class="absolute top-20 left-20 w-2 h-2 bg-neon-cyan rounded-full animate-ping"></div>
+                <div class="absolute top-40 right-32 w-1 h-1 bg-neon-pink rounded-full animate-ping delay-1000"></div>
+                <div class="absolute bottom-40 left-40 w-3 h-3 bg-neon-purple rounded-full animate-ping delay-2000"></div>
+                <div class="absolute bottom-20 right-20 w-2 h-2 bg-neon-cyan rounded-full animate-ping delay-500"></div>
+            </div>
+        </div>
+        
+        <div class="relative z-10 text-center max-w-5xl mx-auto px-4">
+            <h1 class="text-5xl md:text-7xl font-futuristic font-black mb-6 animate-glow">
+                EXPLORE THE
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan via-neon-pink to-neon-purple">
+                    FUTURE
+                </span>
+            </h1>
+            <p class="text-xl md:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                Discover destinations like never before with our AI-powered travel companion. 
+                Journey through time and space to find your perfect adventure.
+            </p>
+            
+            <!-- Search Bar -->
+            <div class="max-w-2xl mx-auto mb-8">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        placeholder="Search destinations across the galaxy..." 
+                        class="w-full px-6 py-4 pl-14 bg-space-navy/80 border-2 border-neon-cyan/50 rounded-2xl text-white placeholder-gray-400 search-glow focus:outline-none text-lg"
+                        data-mock="true"
+                    >
+                    <i class="fas fa-search absolute left-5 top-1/2 transform -translate-y-1/2 text-neon-cyan text-xl"></i>
+                    <button class="absolute right-3 top-1/2 transform -translate-y-1/2 bg-gradient-to-r from-neon-cyan to-neon-pink px-6 py-2 rounded-xl hover-glow text-black font-semibold">
+                        Explore
+                    </button>
+                </div>
+                
+                <!-- Search Suggestions Dropdown -->
+                <div class="absolute mt-2 w-full max-w-2xl mx-auto left-1/2 transform -translate-x-1/2 glass-effect rounded-xl border border-neon-cyan/30 hidden" data-mock="true">
+                    <div class="p-4 space-y-2">
+                        <div class="flex items-center p-3 hover:bg-neon-cyan/10 rounded-lg cursor-pointer">
+                            <i class="fas fa-map-marker-alt text-neon-cyan mr-3"></i>
+                            <span>Neo Tokyo, Japan</span>
+                        </div>
+                        <div class="flex items-center p-3 hover:bg-neon-cyan/10 rounded-lg cursor-pointer">
+                            <i class="fas fa-map-marker-alt text-neon-pink mr-3"></i>
+                            <span>Cyber Singapore</span>
+                        </div>
+                        <div class="flex items-center p-3 hover:bg-neon-cyan/10 rounded-lg cursor-pointer">
+                            <i class="fas fa-map-marker-alt text-neon-purple mr-3"></i>
+                            <span>Digital Dubai</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="bg-gradient-to-r from-neon-purple to-neon-pink px-8 py-4 rounded-2xl hover-glow text-black font-bold text-lg animate-float">
+                Start Your Journey
+            </button>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Hero Section -->
+
+    <!-- @COMPONENT: Trending Destinations -->
+    <section id="destinations" class="py-20 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-futuristic font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-neon-cyan to-neon-pink">
+                    TRENDING DESTINATIONS
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Discover the most popular interstellar destinations chosen by fellow travelers
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- @MAP: destinations.map(destination => ( -->
+                
+                <!-- Destination Card 1 -->
+                <div class="glass-effect rounded-2xl overflow-hidden neon-border hover-glow group cursor-pointer">
+                    <!-- Futuristic cityscape with neon lights and towering skyscrapers -->
+                    <img src="https://images.unsplash.com/photo-1518837695005-2083093ee35b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" alt="Neo Tokyo skyline" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300" />
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-futuristic font-bold text-neon-cyan" data-bind="destination.name">NEO TOKYO</h3>
+                            <div class="flex text-neon-pink">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4" data-mock="true">Experience the perfect blend of ancient traditions and cyberpunk innovation in this neon-lit metropolis.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-neon-pink" data-bind="destination.price">$1,299</span>
+                            <button class="bg-neon-cyan text-black px-4 py-2 rounded-lg hover:bg-neon-pink transition-colors font-semibold">
+                                Explore
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Destination Card 2 -->
+                <div class="glass-effect rounded-2xl overflow-hidden neon-border hover-glow group cursor-pointer">
+                    <!-- Futuristic city with holographic displays and flying vehicles -->
+                    <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" alt="Cyber Singapore" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300" />
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-futuristic font-bold text-neon-cyan" data-bind="destination.name">CYBER SINGAPORE</h3>
+                            <div class="flex text-neon-pink">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="far fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4" data-mock="true">A garden city transformed into a digital paradise with AI-integrated smart systems and vertical farms.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-neon-pink" data-bind="destination.price">$999</span>
+                            <button class="bg-neon-cyan text-black px-4 py-2 rounded-lg hover:bg-neon-pink transition-colors font-semibold">
+                                Explore
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Destination Card 3 -->
+                <div class="glass-effect rounded-2xl overflow-hidden neon-border hover-glow group cursor-pointer">
+                    <!-- Futuristic desert city with glowing towers and advanced architecture -->
+                    <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=400" alt="Digital Dubai" class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300" />
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="text-xl font-futuristic font-bold text-neon-cyan" data-bind="destination.name">DIGITAL DUBAI</h3>
+                            <div class="flex text-neon-pink">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4" data-mock="true">Where luxury meets technology in the world's most advanced smart city with holographic entertainment.</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-2xl font-bold text-neon-pink" data-bind="destination.price">$1,599</span>
+                            <button class="bg-neon-cyan text-black px-4 py-2 rounded-lg hover:bg-neon-pink transition-colors font-semibold">
+                                Explore
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- @END_MAP )) -->
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Trending Destinations -->
+
+    <!-- @COMPONENT: Destination Detail Page -->
+    <section id="destination-detail" class="py-20 px-4 border-t border-neon-cyan/30">
+        <div class="max-w-7xl mx-auto">
+            <!-- Hero Section -->
+            <div class="relative h-96 rounded-3xl overflow-hidden mb-8 neon-border">
+                <!-- Cyberpunk Tokyo street scene with neon signs and bustling nightlife -->
+                <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1200&h=600" alt="Neo Tokyo street view" class="w-full h-full object-cover" />
+                <div class="absolute inset-0 bg-gradient-to-t from-space-blue/80 to-transparent">
+                    <div class="absolute bottom-8 left-8">
+                        <h1 class="text-5xl font-futuristic font-black text-neon-cyan mb-2 animate-glow">NEO TOKYO</h1>
+                        <p class="text-xl text-gray-200" data-mock="true">The cyberpunk capital of the world awaits your exploration</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Navigation Tabs -->
+            <div class="flex flex-wrap justify-center mb-8 gap-4">
+                <button class="bg-neon-cyan text-black px-6 py-3 rounded-xl font-semibold hover-glow tab-active">
+                    <i class="fas fa-bed mr-2"></i>Hotels
+                </button>
+                <button class="glass-effect border border-neon-cyan/50 px-6 py-3 rounded-xl hover-glow">
+                    <i class="fas fa-utensils mr-2"></i>Restaurants
+                </button>
+                <button class="glass-effect border border-neon-cyan/50 px-6 py-3 rounded-xl hover-glow">
+                    <i class="fas fa-map-marked-alt mr-2"></i>Attractions
+                </button>
+                <button class="glass-effect border border-neon-cyan/50 px-6 py-3 rounded-xl hover-glow">
+                    <i class="fas fa-cloud-sun mr-2"></i>Weather
+                </button>
+            </div>
+            
+            <!-- Content Sections -->
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Main Content -->
+                <div class="lg:col-span-2">
+                    <!-- Hotels Section -->
+                    <div class="space-y-6">
+                        <!-- @MAP: hotels.map(hotel => ( -->
+                        
+                        <!-- Hotel Card 1 -->
+                        <div class="glass-effect rounded-2xl p-6 neon-border hover-glow">
+                            <div class="flex flex-col md:flex-row gap-6">
+                                <!-- Luxurious modern hotel lobby with neon accents -->
+                                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300" alt="Cyber Grand Hotel" class="w-full md:w-48 h-48 object-cover rounded-xl" />
+                                <div class="flex-1">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div>
+                                            <h3 class="text-2xl font-futuristic font-bold text-neon-cyan" data-bind="hotel.name">CYBER GRAND HOTEL</h3>
+                                            <div class="flex items-center mt-1">
+                                                <div class="flex text-neon-pink mr-3">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                </div>
+                                                <span class="text-gray-300" data-bind="hotel.rating">4.9 (2,847 reviews)</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-3xl font-bold text-neon-pink" data-bind="hotel.price">$299</div>
+                                            <div class="text-gray-400">per night</div>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-300 mb-4" data-mock="true">Experience luxury in the heart of Neo Tokyo with holographic concierge services and quantum wifi.</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-2">
+                                            <span class="bg-neon-cyan/20 text-neon-cyan px-3 py-1 rounded-full text-sm">AI Butler</span>
+                                            <span class="bg-neon-pink/20 text-neon-pink px-3 py-1 rounded-full text-sm">Sky Pool</span>
+                                            <span class="bg-neon-purple/20 text-neon-purple px-3 py-1 rounded-full text-sm">Quantum Spa</span>
+                                        </div>
+                                        <button class="bg-gradient-to-r from-neon-cyan to-neon-pink text-black px-6 py-2 rounded-lg hover-glow font-semibold">
+                                            Book Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Hotel Card 2 -->
+                        <div class="glass-effect rounded-2xl p-6 neon-border hover-glow">
+                            <div class="flex flex-col md:flex-row gap-6">
+                                <!-- Modern boutique hotel with futuristic design elements -->
+                                <img src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=400&h=300" alt="Neon Boutique Suites" class="w-full md:w-48 h-48 object-cover rounded-xl" />
+                                <div class="flex-1">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div>
+                                            <h3 class="text-2xl font-futuristic font-bold text-neon-cyan" data-bind="hotel.name">NEON BOUTIQUE SUITES</h3>
+                                            <div class="flex items-center mt-1">
+                                                <div class="flex text-neon-pink mr-3">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                </div>
+                                                <span class="text-gray-300" data-bind="hotel.rating">4.7 (1,923 reviews)</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="text-3xl font-bold text-neon-pink" data-bind="hotel.price">$189</div>
+                                            <div class="text-gray-400">per night</div>
+                                        </div>
+                                    </div>
+                                    <p class="text-gray-300 mb-4" data-mock="true">Intimate boutique experience with AR room customization and personalized AI recommendations.</p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex gap-2">
+                                            <span class="bg-neon-cyan/20 text-neon-cyan px-3 py-1 rounded-full text-sm">AR Rooms</span>
+                                            <span class="bg-neon-pink/20 text-neon-pink px-3 py-1 rounded-full text-sm">VR Lounge</span>
+                                        </div>
+                                        <button class="bg-gradient-to-r from-neon-cyan to-neon-pink text-black px-6 py-2 rounded-lg hover-glow font-semibold">
+                                            Book Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="space-y-6">
+                    <!-- Weather Widget -->
+                    <div class="glass-effect rounded-2xl p-6 neon-border">
+                        <h3 class="text-xl font-futuristic font-bold text-neon-cyan mb-4 flex items-center">
+                            <i class="fas fa-cloud-sun text-neon-pink mr-2"></i>
+                            WEATHER
+                        </h3>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-neon-pink mb-2" data-bind="weather.temperature">23°C</div>
+                            <div class="text-gray-300 mb-4" data-bind="weather.condition">Neon Rain</div>
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div class="text-center">
+                                    <div class="text-neon-cyan" data-bind="weather.humidity">Humidity</div>
+                                    <div class="font-semibold" data-mock="true">72%</div>
+                                </div>
+                                <div class="text-center">
+                                    <div class="text-neon-cyan" data-bind="weather.wind">Wind</div>
+                                    <div class="font-semibold" data-mock="true">15 km/h</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Actions -->
+                    <div class="glass-effect rounded-2xl p-6 neon-border">
+                        <h3 class="text-xl font-futuristic font-bold text-neon-cyan mb-4">QUICK ACTIONS</h3>
+                        <div class="space-y-3">
+                            <button class="w-full bg-gradient-to-r from-neon-purple to-neon-pink text-black py-3 rounded-lg hover-glow font-semibold flex items-center justify-center">
+                                <i class="fas fa-plus mr-2"></i>Add to Itinerary
+                            </button>
+                            <button class="w-full glass-effect border border-neon-cyan/50 py-3 rounded-lg hover-glow flex items-center justify-center">
+                                <i class="fas fa-heart mr-2"></i>Save Destination
+                            </button>
+                            <button class="w-full glass-effect border border-neon-cyan/50 py-3 rounded-lg hover-glow flex items-center justify-center">
+                                <i class="fas fa-share mr-2"></i>Share with Friends
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Interactive Map Placeholder -->
+                    <div class="glass-effect rounded-2xl p-6 neon-border">
+                        <h3 class="text-xl font-futuristic font-bold text-neon-cyan mb-4 flex items-center">
+                            <i class="fas fa-map text-neon-pink mr-2"></i>
+                            LOCATION MAP
+                        </h3>
+                        <!-- Placeholder for Mapbox integration -->
+                        <div class="bg-space-navy rounded-xl h-48 flex items-center justify-center border border-neon-cyan/30">
+                            <div class="text-center">
+                                <i class="fas fa-map-marked-alt text-4xl text-neon-cyan mb-2"></i>
+                                <p class="text-gray-300">Interactive Map</p>
+                                <p class="text-sm text-gray-400">Mapbox GL JS Integration</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Destination Detail Page -->
+
+    <!-- @COMPONENT: Itinerary Builder -->
+    <section id="itinerary" class="py-20 px-4 border-t border-neon-cyan/30">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-futuristic font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-neon-purple to-neon-pink">
+                    BUILD YOUR ITINERARY
+                </h2>
+                <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+                    Drag and drop your favorite destinations to create the perfect journey
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Available Items -->
+                <div class="lg:col-span-2">
+                    <h3 class="text-2xl font-futuristic font-bold text-neon-cyan mb-6">AVAILABLE EXPERIENCES</h3>
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <!-- Drag Item 1 -->
+                        <div class="glass-effect rounded-xl p-4 neon-border hover-glow cursor-move" draggable="true">
+                            <div class="flex items-center gap-4">
+                                <!-- Traditional Japanese temple with modern lighting -->
+                                <img src="https://images.unsplash.com/photo-1528164344705-47542687000d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100" alt="Digital Shrine Visit" class="w-16 h-16 object-cover rounded-lg" />
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-neon-cyan" data-mock="true">Digital Shrine Visit</h4>
+                                    <p class="text-sm text-gray-300" data-mock="true">2 hours • Cultural</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="fas fa-grip-vertical text-neon-pink mr-2"></i>
+                                        <span class="text-neon-pink font-semibold">Drag to add</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Drag Item 2 -->
+                        <div class="glass-effect rounded-xl p-4 neon-border hover-glow cursor-move" draggable="true">
+                            <div class="flex items-center gap-4">
+                                <!-- High-tech restaurant interior with neon lighting -->
+                                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100" alt="Cyber Ramen Experience" class="w-16 h-16 object-cover rounded-lg" />
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-neon-cyan" data-mock="true">Cyber Ramen Experience</h4>
+                                    <p class="text-sm text-gray-300" data-mock="true">1.5 hours • Dining</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="fas fa-grip-vertical text-neon-pink mr-2"></i>
+                                        <span class="text-neon-pink font-semibold">Drag to add</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Drag Item 3 -->
+                        <div class="glass-effect rounded-xl p-4 neon-border hover-glow cursor-move" draggable="true">
+                            <div class="flex items-center gap-4">
+                                <!-- Modern shopping district with neon signs -->
+                                <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100" alt="Holographic Shopping" class="w-16 h-16 object-cover rounded-lg" />
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-neon-cyan" data-mock="true">Holographic Shopping</h4>
+                                    <p class="text-sm text-gray-300" data-mock="true">3 hours • Shopping</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="fas fa-grip-vertical text-neon-pink mr-2"></i>
+                                        <span class="text-neon-pink font-semibold">Drag to add</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Drag Item 4 -->
+                        <div class="glass-effect rounded-xl p-4 neon-border hover-glow cursor-move" draggable="true">
+                            <div class="flex items-center gap-4">
+                                <!-- Futuristic transportation system or maglev train -->
+                                <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=100&h=100" alt="Maglev City Tour" class="w-16 h-16 object-cover rounded-lg" />
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-neon-cyan" data-mock="true">Maglev City Tour</h4>
+                                    <p class="text-sm text-gray-300" data-mock="true">4 hours • Sightseeing</p>
+                                    <div class="flex items-center mt-1">
+                                        <i class="fas fa-grip-vertical text-neon-pink mr-2"></i>
+                                        <span class="text-neon-pink font-semibold">Drag to add</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Itinerary Timeline -->
+                <div>
+                    <h3 class="text-2xl font-futuristic font-bold text-neon-cyan mb-6">YOUR ITINERARY</h3>
+                    <div class="glass-effect rounded-2xl p-6 neon-border min-h-96">
+                        <div class="text-center text-gray-400 py-12" id="empty-itinerary">
+                            <i class="fas fa-calendar-plus text-4xl text-neon-cyan mb-4"></i>
+                            <p class="mb-2">Drag experiences here to build your itinerary</p>
+                            <p class="text-sm">Your perfect journey awaits!</p>
+                        </div>
+                        
+                        <!-- Populated Itinerary Items (hidden by default) -->
+                        <div class="space-y-4 hidden" id="itinerary-items">
+                            <div class="flex items-center gap-4 p-3 bg-neon-cyan/10 rounded-lg">
+                                <div class="w-8 h-8 bg-neon-cyan rounded-full flex items-center justify-center text-black font-bold text-sm">1</div>
+                                <div class="flex-1">
+                                    <h4 class="font-bold text-neon-cyan" data-mock="true">Digital Shrine Visit</h4>
+                                    <p class="text-sm text-gray-300" data-mock="true">9:00 AM - 11:00 AM</p>
+                                </div>
+                                <button class="text-neon-pink hover:text-red-400">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-6 border-t border-neon-cyan/30">
+                            <button class="w-full bg-gradient-to-r from-neon-purple to-neon-pink text-black py-3 rounded-lg hover-glow font-semibold">
+                                Save Itinerary
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Itinerary Builder -->
+
+    <!-- @COMPONENT: Footer -->
+    <footer class="border-t border-neon-cyan/30 py-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-rocket text-2xl text-neon-cyan"></i>
+                        <span class="text-xl font-futuristic font-bold text-neon-cyan">NEON VOYAGER</span>
+                    </div>
+                    <p class="text-gray-400 mb-4">Explore the future of travel with our AI-powered guide to the world's most incredible destinations.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-neon-cyan hover:text-neon-pink transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-neon-cyan hover:text-neon-pink transition-colors">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-neon-cyan hover:text-neon-pink transition-colors">
+                            <i class="fab fa-facebook text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-futuristic font-bold text-neon-cyan mb-4">EXPLORE</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Destinations</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Hotels</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Restaurants</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Attractions</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-futuristic font-bold text-neon-cyan mb-4">FEATURES</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Itinerary Builder</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Interactive Maps</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Weather Widgets</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">AI Recommendations</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-futuristic font-bold text-neon-cyan mb-4">SUPPORT</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Contact Us</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-neon-cyan transition-colors">Terms of Service</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-neon-cyan/30 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Neon Voyager. All rights reserved. Journey into the future.</p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        (function() {
+            // TODO: Implement Vanta.js animated background
+            // TODO: Implement Framer Motion animations
+            // TODO: Implement Tone.js audio features
+            // TODO: Implement Mapbox GL JS integration
+            // TODO: Implement drag and drop functionality for itinerary builder
+            // TODO: Implement local storage for saving itineraries
+            // TODO: Implement API integration for travel data
+            
+            // Basic tab functionality for destination details
+            const tabs = document.querySelectorAll('[class*="tab"]');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => {
+                        t.classList.remove('bg-neon-cyan', 'text-black');
+                        t.classList.add('glass-effect', 'border', 'border-neon-cyan/50');
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('bg-neon-cyan', 'text-black');
+                    this.classList.remove('glass-effect', 'border', 'border-neon-cyan/50');
+                });
+            });
+            
+            // Basic search functionality placeholder
+            const searchInput = document.querySelector('input[type="text"]');
+            if (searchInput) {
+                searchInput.addEventListener('focus', function() {
+                    // TODO: Show search suggestions dropdown
+                });
+                
+                searchInput.addEventListener('input', function() {
+                    // TODO: Implement live search suggestions
+                });
+            }
+            
+            // Audio toggle placeholder
+            let audioEnabled = false;
+            function toggleAudio() {
+                audioEnabled = !audioEnabled;
+                // TODO: Implement Tone.js audio toggle
+                console.log('Audio toggled:', audioEnabled);
+            }
+            
+            // Add audio toggle button to navigation
+            const nav = document.querySelector('nav .hidden.md\\:flex');
+            if (nav) {
+                const audioButton = document.createElement('button');
+                audioButton.innerHTML = '<i class="fas fa-volume-up"></i>';
+                audioButton.className = 'text-neon-cyan hover:text-neon-pink transition-colors';
+                audioButton.onclick = toggleAudio;
+                nav.insertBefore(audioButton, nav.lastElementChild);
+            }
+        })();
+    </script>
+</body>
+</html>
