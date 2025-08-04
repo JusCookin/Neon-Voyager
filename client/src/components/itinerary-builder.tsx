@@ -81,7 +81,7 @@ export default function ItineraryBuilder() {
             <div className="grid md:grid-cols-2 gap-4">
               {availableItems.map((item, index) => (
                 <motion.div
-                  key={item.id}
+                  key={`available-${item.id}-${index}`}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
@@ -150,7 +150,7 @@ export default function ItineraryBuilder() {
                   >
                     {currentItinerary.map((item, index) => (
                       <Reorder.Item 
-                        key={item.id} 
+                        key={`${item.id}-${index}-${item.type}`} 
                         value={item}
                         className="flex items-center gap-4 p-3 bg-cyan-400/10 rounded-lg cursor-move"
                         whileDrag={{ scale: 1.05 }}
