@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Bed, Utensils, MapPin, Cloud, Star, Plus, Heart, Share } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
+import { useToast } from '@/hooks/use-toast';
 import type { Destination, Hotel, Restaurant, Attraction, Weather } from '@/types/travel';
 
 interface DestinationDetailProps {
@@ -15,6 +16,40 @@ interface DestinationDetailProps {
 
 export default function DestinationDetail({ destinationId, onAddToItinerary }: DestinationDetailProps) {
   const [activeTab, setActiveTab] = useState('hotels');
+  const { toast } = useToast();
+
+  const handleBooking = (type: string, name: string, price: number) => {
+    toast({
+      title: "Booking Initiated",
+      description: `${type === 'hotel' ? 'Hotel booking' : type === 'restaurant' ? 'Table reservation' : 'Experience booking'} for ${name} ${price > 0 ? `($${price})` : ''} is being processed...`,
+      variant: "default",
+    });
+    
+    // Simulate booking process
+    setTimeout(() => {
+      toast({
+        title: "Booking Confirmed!",
+        description: `Your ${type} booking for ${name} has been confirmed. Check your email for details.`,
+        variant: "default",
+      });
+    }, 2000);
+  };
+
+  const handleFavorite = (name: string) => {
+    toast({
+      title: "Added to Favorites",
+      description: `${name} has been saved to your favorites list.`,
+      variant: "default",
+    });
+  };
+
+  const handleShare = (name: string) => {
+    toast({
+      title: "Share Link Copied",
+      description: `Share link for ${name} has been copied to your clipboard.`,
+      variant: "default",
+    });
+  };
 
   const { data: destination } = useQuery<Destination>({
     queryKey: ['/api/destinations', destinationId],
@@ -198,7 +233,10 @@ export default function DestinationDetail({ destinationId, onAddToItinerary }: D
                                   <Plus className="w-4 h-4 mr-2" />
                                   Add
                                 </Button>
-                                <Button className="bg-gradient-to-r from-cyan-400 to-pink-400 text-black hover-glow font-semibold">
+                                <Button 
+                                  onClick={() => handleBooking('hotel', hotel.name, hotel.price)}
+                                  className="bg-gradient-to-r from-cyan-400 to-pink-400 text-black hover-glow font-semibold"
+                                >
                                   Book Now
                                 </Button>
                               </div>
@@ -270,7 +308,10 @@ export default function DestinationDetail({ destinationId, onAddToItinerary }: D
                                   <Plus className="w-4 h-4 mr-2" />
                                   Add
                                 </Button>
-                                <Button className="bg-gradient-to-r from-pink-400 to-purple-400 text-black hover-glow font-semibold">
+                                <Button 
+                                  onClick={() => handleBooking('restaurant', restaurant.name, 0)}
+                                  className="bg-gradient-to-r from-pink-400 to-purple-400 text-black hover-glow font-semibold"
+                                >
                                   Reserve
                                 </Button>
                               </div>
@@ -308,20 +349,29 @@ export default function DestinationDetail({ destinationId, onAddToItinerary }: D
                               </Badge>
                               <span className="text-cyan-400 text-sm">{attraction.duration}</span>
                             </div>
-                            <Button 
-                              onClick={() => onAddToItinerary({
-                                id: attraction.id,
-                                type: 'attraction',
-                                name: attraction.name,
-                                duration: attraction.duration,
-                                category: attraction.category,
-                                imageUrl: attraction.imageUrl
-                              })}
-                              className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-black hover-glow font-semibold"
-                            >
-                              <Plus className="w-4 h-4 mr-2" />
-                              Add to Itinerary
-                            </Button>
+                            <div className="space-y-2">
+                              <Button 
+                                onClick={() => onAddToItinerary({
+                                  id: attraction.id,
+                                  type: 'attraction',
+                                  name: attraction.name,
+                                  duration: attraction.duration,
+                                  category: attraction.category,
+                                  imageUrl: attraction.imageUrl
+                                })}
+                                variant="outline"
+                                className="w-full neon-border hover-glow"
+                              >
+                                <Plus className="w-4 h-4 mr-2" />
+                                Add to Itinerary
+                              </Button>
+                              <Button 
+                                onClick={() => handleBooking('attraction', attraction.name, 0)}
+                                className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-black hover-glow font-semibold"
+                              >
+                                Book Experience
+                              </Button>
+                            </div>
                           </CardContent>
                         </Card>
                       </motion.div>
@@ -405,15 +455,31 @@ export default function DestinationDetail({ destinationId, onAddToItinerary }: D
                       QUICK ACTIONS
                     </h3>
                     <div className="space-y-3">
-                      <Button className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-black py-3 rounded-lg hover-glow font-semibold">
+                      <Button 
+                        onClick={() => onAddToItinerary({
+                          id: destination.id,
+                          type: 'destination',
+                          name: destination.name,
+                          duration: '1 day',
+                          category: destination.category,
+                          imageUrl: destination.imageUrl
+                        })}
+                        className="w-full bg-gradient-to-r from-purple-400 to-pink-400 text-black py-3 rounded-lg hover-glow font-semibold"
+                      >
                         <Plus className="w-4 h-4 mr-2" />
                         Add to Itinerary
                       </Button>
-                      <Button className="w-full glass-effect border border-cyan-400/50 py-3 rounded-lg hover-glow">
+                      <Button 
+                        onClick={() => handleFavorite(destination.name)}
+                        className="w-full glass-effect border border-cyan-400/50 py-3 rounded-lg hover-glow"
+                      >
                         <Heart className="w-4 h-4 mr-2" />
                         Save Destination
                       </Button>
-                      <Button className="w-full glass-effect border border-cyan-400/50 py-3 rounded-lg hover-glow">
+                      <Button 
+                        onClick={() => handleShare(destination.name)}
+                        className="w-full glass-effect border border-cyan-400/50 py-3 rounded-lg hover-glow"
+                      >
                         <Share className="w-4 h-4 mr-2" />
                         Share with Friends
                       </Button>
