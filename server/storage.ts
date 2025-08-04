@@ -1,4 +1,10 @@
 import { 
+  destinations,
+  hotels,
+  restaurants,
+  attractions,
+  weather,
+  itineraries,
   type Destination, 
   type Hotel, 
   type Restaurant, 
@@ -12,7 +18,14 @@ import {
   type InsertItinerary,
   type InsertWeather
 } from "@shared/schema";
-import { randomUUID } from "crypto";
+import { db } from "./db";
+import { eq, ilike, or } from "drizzle-orm";
+import { fetchWeatherData } from "./weather-api";
+import { 
+  fetchHotelsForDestination, 
+  fetchRestaurantsForDestination, 
+  fetchAttractionsForDestination 
+} from "./travel-apis";
 
 export interface IStorage {
   // Destinations
@@ -46,23 +59,17 @@ export interface IStorage {
   searchDestinations(query: string): Promise<Destination[]>;
 }
 
-export class MemStorage implements IStorage {
-  private destinations: Map<string, Destination> = new Map();
-  private hotels: Map<string, Hotel> = new Map();
-  private restaurants: Map<string, Restaurant> = new Map();
-  private attractions: Map<string, Attraction> = new Map();
-  private weather: Map<string, Weather> = new Map();
-  private itineraries: Map<string, Itinerary> = new Map();
+export class DatabaseStorage implements IStorage {
+  async seedData() {
+    // Check if data already exists
+    const existingDestinations = await db.select().from(destinations).limit(1);
+    if (existingDestinations.length > 0) {
+      return; // Data already seeded
+    }
 
-  constructor() {
-    this.seedData();
-  }
-
-  private seedData() {
     // Seed destinations
-    const destinations: Destination[] = [
+    const destinationData = [
       {
-        id: "dest-1",
         name: "Neo Tokyo",
         description: "Experience the perfect blend of ancient traditions and cyberpunk innovation in this neon-lit metropolis.",
         price: 1299,
@@ -72,7 +79,6 @@ export class MemStorage implements IStorage {
         category: "Cyberpunk"
       },
       {
-        id: "dest-2",
         name: "Cyber Singapore",
         description: "A garden city transformed into a digital paradise with AI-integrated smart systems and vertical farms.",
         price: 999,
@@ -82,7 +88,6 @@ export class MemStorage implements IStorage {
         category: "Smart City"
       },
       {
-        id: "dest-3",
         name: "Digital Dubai",
         description: "Where luxury meets technology in the world's most advanced smart city with holographic entertainment.",
         price: 1599,
@@ -93,13 +98,12 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    destinations.forEach(dest => this.destinations.set(dest.id, dest));
+    const createdDestinations = await db.insert(destinations).values(destinationData).returning();
 
-    // Seed hotels
-    const hotels: Hotel[] = [
+    // Seed hotels for first destination
+    const hotelData = [
       {
-        id: "hotel-1",
-        destinationId: "dest-1",
+        destinationId: createdDestinations[0].id,
         name: "Cyber Grand Hotel",
         description: "Experience luxury in the heart of Neo Tokyo with holographic concierge services and quantum wifi.",
         price: 299,
@@ -109,8 +113,7 @@ export class MemStorage implements IStorage {
         amenities: ["AI Butler", "Sky Pool", "Quantum Spa"]
       },
       {
-        id: "hotel-2",
-        destinationId: "dest-1",
+        destinationId: createdDestinations[0].id,
         name: "Neon Boutique Suites",
         description: "Intimate boutique experience with AR room customization and personalized AI recommendations.",
         price: 189,
@@ -121,13 +124,12 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    hotels.forEach(hotel => this.hotels.set(hotel.id, hotel));
+    await db.insert(hotels).values(hotelData);
 
     // Seed restaurants
-    const restaurants: Restaurant[] = [
+    const restaurantData = [
       {
-        id: "rest-1",
-        destinationId: "dest-1",
+        destinationId: createdDestinations[0].id,
         name: "Cyber Ramen Experience",
         description: "Traditional ramen elevated with molecular gastronomy and holographic ambiance.",
         cuisineType: "Fusion Japanese",
@@ -137,13 +139,12 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    restaurants.forEach(rest => this.restaurants.set(rest.id, rest));
+    await db.insert(restaurants).values(restaurantData);
 
     // Seed attractions
-    const attractions: Attraction[] = [
+    const attractionData = [
       {
-        id: "attr-1",
-        destinationId: "dest-1",
+        destinationId: createdDestinations[0].id,
         name: "Digital Shrine Visit",
         description: "Experience ancient spirituality enhanced with augmented reality offerings and digital prayers.",
         category: "Cultural",
@@ -152,8 +153,7 @@ export class MemStorage implements IStorage {
         location: { lat: 35.6762, lng: 139.6503 }
       },
       {
-        id: "attr-2",
-        destinationId: "dest-1",
+        destinationId: createdDestinations[0].id,
         name: "Holographic Shopping",
         description: "Shop in virtual reality stores with haptic feedback and instant delivery to your hotel.",
         category: "Shopping",
@@ -162,8 +162,7 @@ export class MemStorage implements IStorage {
         location: { lat: 35.6762, lng: 139.6503 }
       },
       {
-        id: "attr-3",
-        destinationId: "dest-1",
+        destinationId: createdDestinations[0].id,
         name: "Maglev City Tour",
         description: "High-speed magnetic levitation tour through the city's most iconic futuristic landmarks.",
         category: "Sightseeing",
@@ -173,13 +172,12 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    attractions.forEach(attr => this.attractions.set(attr.id, attr));
+    await db.insert(attractions).values(attractionData);
 
     // Seed weather
-    const weatherData: Weather[] = [
+    const weatherData = [
       {
-        id: "weather-1",
-        destinationId: "dest-1",
+        destinationId: createdDestinations[0].id,
         temperature: 23,
         condition: "Neon Rain",
         humidity: 72,
@@ -188,99 +186,230 @@ export class MemStorage implements IStorage {
       }
     ];
 
-    weatherData.forEach(w => this.weather.set(w.id, w));
+    await db.insert(weather).values(weatherData);
   }
 
   async getDestinations(): Promise<Destination[]> {
-    return Array.from(this.destinations.values());
+    return await db.select().from(destinations);
   }
 
   async getDestination(id: string): Promise<Destination | undefined> {
-    return this.destinations.get(id);
+    const result = await db.select().from(destinations).where(eq(destinations.id, id));
+    return result[0];
   }
 
   async createDestination(insertDestination: InsertDestination): Promise<Destination> {
-    const id = randomUUID();
-    const destination: Destination = { ...insertDestination, id };
-    this.destinations.set(id, destination);
-    return destination;
+    const result = await db.insert(destinations).values(insertDestination).returning();
+    return result[0];
   }
 
   async getHotelsByDestination(destinationId: string): Promise<Hotel[]> {
-    return Array.from(this.hotels.values()).filter(hotel => hotel.destinationId === destinationId);
+    // Get from database first
+    const dbHotels = await db.select().from(hotels).where(eq(hotels.destinationId, destinationId));
+    
+    // Get destination name for API call
+    const destination = await this.getDestination(destinationId);
+    if (!destination) return dbHotels;
+    
+    try {
+      // Fetch from external API and merge with database data
+      const externalHotels = await fetchHotelsForDestination(destination.name);
+      
+      // Convert external hotels to our schema and add to database
+      for (const externalHotel of externalHotels) {
+        const existingHotel = dbHotels.find(h => h.name === externalHotel.name);
+        if (!existingHotel) {
+          const newHotel = await db.insert(hotels).values({
+            destinationId,
+            name: externalHotel.name,
+            description: externalHotel.description,
+            price: externalHotel.price,
+            rating: externalHotel.rating,
+            reviewCount: externalHotel.reviewCount,
+            imageUrl: externalHotel.imageUrl,
+            amenities: externalHotel.amenities
+          }).returning();
+          dbHotels.push(newHotel[0]);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching external hotels:', error);
+    }
+    
+    return dbHotels;
   }
 
   async createHotel(insertHotel: InsertHotel): Promise<Hotel> {
-    const id = randomUUID();
-    const hotel: Hotel = { ...insertHotel, id };
-    this.hotels.set(id, hotel);
-    return hotel;
+    const result = await db.insert(hotels).values(insertHotel).returning();
+    return result[0];
   }
 
   async getRestaurantsByDestination(destinationId: string): Promise<Restaurant[]> {
-    return Array.from(this.restaurants.values()).filter(rest => rest.destinationId === destinationId);
+    // Get from database first
+    const dbRestaurants = await db.select().from(restaurants).where(eq(restaurants.destinationId, destinationId));
+    
+    // Get destination name for API call
+    const destination = await this.getDestination(destinationId);
+    if (!destination) return dbRestaurants;
+    
+    try {
+      // Fetch from external API and merge with database data
+      const externalRestaurants = await fetchRestaurantsForDestination(destination.name);
+      
+      // Convert external restaurants to our schema and add to database
+      for (const externalRestaurant of externalRestaurants) {
+        const existingRestaurant = dbRestaurants.find(r => r.name === externalRestaurant.name);
+        if (!existingRestaurant) {
+          const newRestaurant = await db.insert(restaurants).values({
+            destinationId,
+            name: externalRestaurant.name,
+            description: externalRestaurant.description,
+            cuisineType: externalRestaurant.cuisineType,
+            priceRange: externalRestaurant.priceRange,
+            rating: externalRestaurant.rating,
+            imageUrl: externalRestaurant.imageUrl
+          }).returning();
+          dbRestaurants.push(newRestaurant[0]);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching external restaurants:', error);
+    }
+    
+    return dbRestaurants;
   }
 
   async createRestaurant(insertRestaurant: InsertRestaurant): Promise<Restaurant> {
-    const id = randomUUID();
-    const restaurant: Restaurant = { ...insertRestaurant, id };
-    this.restaurants.set(id, restaurant);
-    return restaurant;
+    const result = await db.insert(restaurants).values(insertRestaurant).returning();
+    return result[0];
   }
 
   async getAttractionsByDestination(destinationId: string): Promise<Attraction[]> {
-    return Array.from(this.attractions.values()).filter(attr => attr.destinationId === destinationId);
+    // Get from database first
+    const dbAttractions = await db.select().from(attractions).where(eq(attractions.destinationId, destinationId));
+    
+    // Get destination name for API call
+    const destination = await this.getDestination(destinationId);
+    if (!destination) return dbAttractions;
+    
+    try {
+      // Fetch from external API and merge with database data
+      const externalAttractions = await fetchAttractionsForDestination(destination.name);
+      
+      // Convert external attractions to our schema and add to database
+      for (const externalAttraction of externalAttractions) {
+        const existingAttraction = dbAttractions.find(a => a.name === externalAttraction.name);
+        if (!existingAttraction) {
+          const newAttraction = await db.insert(attractions).values({
+            destinationId,
+            name: externalAttraction.name,
+            description: externalAttraction.description,
+            category: externalAttraction.category,
+            duration: externalAttraction.duration,
+            imageUrl: externalAttraction.imageUrl,
+            location: externalAttraction.location
+          }).returning();
+          dbAttractions.push(newAttraction[0]);
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching external attractions:', error);
+    }
+    
+    return dbAttractions;
   }
 
   async createAttraction(insertAttraction: InsertAttraction): Promise<Attraction> {
-    const id = randomUUID();
-    const attraction: Attraction = { ...insertAttraction, id };
-    this.attractions.set(id, attraction);
-    return attraction;
+    const result = await db.insert(attractions).values(insertAttraction).returning();
+    return result[0];
   }
 
   async getWeatherByDestination(destinationId: string): Promise<Weather | undefined> {
-    return Array.from(this.weather.values()).find(w => w.destinationId === destinationId);
+    // Check database first
+    const dbResult = await db.select().from(weather).where(eq(weather.destinationId, destinationId));
+    let weatherData = dbResult[0];
+    
+    // Get destination for real-time weather
+    const destination = await this.getDestination(destinationId);
+    if (!destination) return weatherData;
+    
+    try {
+      // Fetch real-time weather data
+      const realTimeWeather = await fetchWeatherData(destination.location.lat, destination.location.lng);
+      
+      if (weatherData) {
+        // Update existing weather data
+        await db.update(weather)
+          .set({
+            temperature: realTimeWeather.temperature,
+            condition: realTimeWeather.condition,
+            humidity: realTimeWeather.humidity,
+            windSpeed: realTimeWeather.windSpeed,
+            icon: realTimeWeather.icon
+          })
+          .where(eq(weather.destinationId, destinationId));
+        
+        // Return updated data
+        weatherData = {
+          ...weatherData,
+          ...realTimeWeather
+        };
+      } else {
+        // Create new weather data
+        const newWeather = await db.insert(weather).values({
+          destinationId,
+          ...realTimeWeather
+        }).returning();
+        weatherData = newWeather[0];
+      }
+    } catch (error) {
+      console.error('Error fetching weather data:', error);
+    }
+    
+    return weatherData;
   }
 
   async createWeather(insertWeather: InsertWeather): Promise<Weather> {
-    const id = randomUUID();
-    const weather: Weather = { ...insertWeather, id };
-    this.weather.set(id, weather);
-    return weather;
+    const result = await db.insert(weather).values(insertWeather).returning();
+    return result[0];
   }
 
   async getItineraries(): Promise<Itinerary[]> {
-    return Array.from(this.itineraries.values());
+    return await db.select().from(itineraries);
   }
 
   async getItinerary(id: string): Promise<Itinerary | undefined> {
-    return this.itineraries.get(id);
+    const result = await db.select().from(itineraries).where(eq(itineraries.id, id));
+    return result[0];
   }
 
   async createItinerary(insertItinerary: InsertItinerary): Promise<Itinerary> {
-    const id = randomUUID();
-    const itinerary: Itinerary = { 
-      ...insertItinerary, 
-      id, 
-      createdAt: new Date().toISOString() 
+    const itineraryWithDate = {
+      ...insertItinerary,
+      createdAt: new Date().toISOString()
     };
-    this.itineraries.set(id, itinerary);
-    return itinerary;
+    const result = await db.insert(itineraries).values(itineraryWithDate).returning();
+    return result[0];
   }
 
   async deleteItinerary(id: string): Promise<void> {
-    this.itineraries.delete(id);
+    await db.delete(itineraries).where(eq(itineraries.id, id));
   }
 
   async searchDestinations(query: string): Promise<Destination[]> {
-    const lowercaseQuery = query.toLowerCase();
-    return Array.from(this.destinations.values()).filter(dest =>
-      dest.name.toLowerCase().includes(lowercaseQuery) ||
-      dest.description.toLowerCase().includes(lowercaseQuery) ||
-      dest.category.toLowerCase().includes(lowercaseQuery)
+    return await db.select().from(destinations).where(
+      or(
+        ilike(destinations.name, `%${query}%`),
+        ilike(destinations.description, `%${query}%`),
+        ilike(destinations.category, `%${query}%`)
+      )
     );
   }
 }
 
-export const storage = new MemStorage();
+const storage = new DatabaseStorage();
+
+// Initialize data on startup
+storage.seedData().catch(console.error);
+
+export { storage };

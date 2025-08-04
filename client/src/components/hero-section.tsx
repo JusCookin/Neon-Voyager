@@ -21,7 +21,7 @@ export default function HeroSection({ onDestinationSelect }: HeroSectionProps) {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    if (searchResults && searchResults.length > 0) {
+    if (searchResults && Array.isArray(searchResults) && searchResults.length > 0) {
       onDestinationSelect(searchResults[0].id);
     }
   };
@@ -89,7 +89,7 @@ export default function HeroSection({ onDestinationSelect }: HeroSectionProps) {
                 </Button>
               </div>
               
-              {showSuggestions && searchResults && searchResults.length > 0 && (
+              {showSuggestions && searchResults && Array.isArray(searchResults) && searchResults.length > 0 && (
                 <motion.div 
                   className="absolute mt-2 w-full glass-effect rounded-xl border border-cyan-400/30 overflow-hidden"
                   initial={{ opacity: 0, y: -10 }}

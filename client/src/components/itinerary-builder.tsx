@@ -31,14 +31,14 @@ export default function ItineraryBuilder() {
     queryKey: ['/api/destinations', 'dest-1', 'attractions'], // Using first destination for demo
   });
 
-  const availableItems: ItineraryItem[] = attractions?.map((attraction: Attraction) => ({
+  const availableItems: ItineraryItem[] = (attractions && Array.isArray(attractions)) ? attractions.map((attraction: Attraction) => ({
     id: attraction.id,
     type: 'attraction' as const,
     name: attraction.name,
     duration: attraction.duration,
     category: attraction.category,
     imageUrl: attraction.imageUrl
-  })) || [];
+  })) : [];
 
   const handleSaveItinerary = () => {
     if (itineraryName.trim() && currentItinerary.length > 0) {
