@@ -219,7 +219,7 @@ export class DatabaseStorage implements IStorage {
       for (const externalHotel of externalHotels) {
         const existingHotel = dbHotels.find(h => h.name === externalHotel.name);
         if (!existingHotel) {
-          const newHotel = await db.insert(hotels).values({
+          const newHotel = await db.insert(hotels).values([{
             destinationId,
             name: externalHotel.name,
             description: externalHotel.description,
@@ -228,7 +228,7 @@ export class DatabaseStorage implements IStorage {
             reviewCount: externalHotel.reviewCount,
             imageUrl: externalHotel.imageUrl,
             amenities: externalHotel.amenities
-          }).returning();
+          }]).returning();
           dbHotels.push(newHotel[0]);
         }
       }
@@ -260,7 +260,7 @@ export class DatabaseStorage implements IStorage {
       for (const externalRestaurant of externalRestaurants) {
         const existingRestaurant = dbRestaurants.find(r => r.name === externalRestaurant.name);
         if (!existingRestaurant) {
-          const newRestaurant = await db.insert(restaurants).values({
+          const newRestaurant = await db.insert(restaurants).values([{
             destinationId,
             name: externalRestaurant.name,
             description: externalRestaurant.description,
@@ -268,7 +268,7 @@ export class DatabaseStorage implements IStorage {
             priceRange: externalRestaurant.priceRange,
             rating: externalRestaurant.rating,
             imageUrl: externalRestaurant.imageUrl
-          }).returning();
+          }]).returning();
           dbRestaurants.push(newRestaurant[0]);
         }
       }
@@ -300,7 +300,7 @@ export class DatabaseStorage implements IStorage {
       for (const externalAttraction of externalAttractions) {
         const existingAttraction = dbAttractions.find(a => a.name === externalAttraction.name);
         if (!existingAttraction) {
-          const newAttraction = await db.insert(attractions).values({
+          const newAttraction = await db.insert(attractions).values([{
             destinationId,
             name: externalAttraction.name,
             description: externalAttraction.description,
@@ -308,7 +308,7 @@ export class DatabaseStorage implements IStorage {
             duration: externalAttraction.duration,
             imageUrl: externalAttraction.imageUrl,
             location: externalAttraction.location
-          }).returning();
+          }]).returning();
           dbAttractions.push(newAttraction[0]);
         }
       }
@@ -356,10 +356,10 @@ export class DatabaseStorage implements IStorage {
         };
       } else {
         // Create new weather data
-        const newWeather = await db.insert(weather).values({
+        const newWeather = await db.insert(weather).values([{
           destinationId,
           ...realTimeWeather
-        }).returning();
+        }]).returning();
         weatherData = newWeather[0];
       }
     } catch (error) {
@@ -388,7 +388,7 @@ export class DatabaseStorage implements IStorage {
       ...insertItinerary,
       createdAt: new Date().toISOString()
     };
-    const result = await db.insert(itineraries).values(itineraryWithDate).returning();
+    const result = await db.insert(itineraries).values([itineraryWithDate]).returning();
     return result[0];
   }
 

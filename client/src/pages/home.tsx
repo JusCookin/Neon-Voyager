@@ -7,6 +7,7 @@ import ItineraryBuilder from '@/components/itinerary-builder';
 import Footer from '@/components/footer';
 import AudioPlayer from '@/components/audio-player';
 import AppStatus from '@/components/app-status';
+import FeatureDemo from '@/components/feature-demo';
 import { useItinerary } from '@/hooks/use-itinerary';
 
 export default function Home() {
@@ -54,6 +55,8 @@ export default function Home() {
       <AudioPlayer />
       
       <AppStatus />
+      
+      <FeatureDemo />
     </div>
   );
 }

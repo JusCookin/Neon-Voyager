@@ -16,6 +16,11 @@ export default function HeroSection({ onDestinationSelect }: HeroSectionProps) {
 
   const { data: searchResults } = useQuery({
     queryKey: ['/api/search', searchQuery],
+    queryFn: async () => {
+      const response = await fetch(`/api/search?q=${encodeURIComponent(searchQuery)}`);
+      if (!response.ok) throw new Error('Search failed');
+      return response.json();
+    },
     enabled: searchQuery.length > 2,
   });
 
