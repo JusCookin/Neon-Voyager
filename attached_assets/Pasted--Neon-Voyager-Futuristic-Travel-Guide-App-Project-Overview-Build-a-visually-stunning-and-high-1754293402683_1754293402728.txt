@@ -1,0 +1,54 @@
+🔮 Neon Voyager - Futuristic Travel Guide App
+🎯 Project Overview
+Build a visually stunning and highly interactive web application that serves as a travel guide for the modern era. The app will feature a complete neon-patterned user interface, a dark theme with vibrant accents, and advanced functionalities for exploring destinations. The project will showcase your skills in creating immersive UI/UX with modern web technologies.
+
+📋 Core Features Required
+Futuristic Dashboard: A dynamic home screen that greets the user with a stylized welcome message and showcases trending destinations with a glowing, animated card-based layout.
+
+Destination Search: A prominent search bar with a neon glow effect. As the user types, a dropdown with live suggestions should appear.
+
+Destination Detail Page:
+
+A hero section with a high-quality background image of the destination.
+
+Glowing title text and a brief summary of the location.
+
+Tabs or a navigation system for "Hotels," "Restaurants," "Attractions," and "Weather."
+
+Recommendations & Suggestions:
+
+Hotels: A list of hotel suggestions with ratings, prices, and a link to an external booking site (can be a placeholder). Each hotel card should have a neon-bordered frame.
+
+Restaurants: A list of recommended restaurants with cuisine type, price range, and a brief description.
+
+Attractions: A list of key points of interest, complete with images and a short description.
+
+Weather Widget: A sleek, animated widget displaying the current weather for the selected destination with neon-style icons.
+
+✨ Advanced & 'Vibr' Features
+Interactive Map: Integrate a map service like Mapbox GL JS or Leaflet.js. The map should have a custom dark theme and use neon-colored markers for hotels, restaurants, and attractions.
+
+Itinerary Builder: A dedicated section where users can add recommended spots to a personalized itinerary. This feature should have a drag-and-drop interface and allow for saving the plan to local storage.
+
+Visualizer & Animations:
+
+Use Vanta.js to create an animated, futuristic background on the home page (e.g., a "galaxy" or "net" effect).
+
+Implement micro-interactions on all buttons and cards, such as a subtle zoom or glowing border on hover.
+
+Use a library like Framer Motion for smooth page transitions and entrance animations for elements.
+
+Thematic Soundscape: Add a subtle, ambient synth-wave or lo-fi soundtrack that plays in the background, which the user can toggle on or off.
+
+🧭 Technology Stack
+Frontend: React, Vite, Tailwind CSS, Framer Motion
+
+Mapping: Mapbox GL JS or Leaflet.js
+
+Background Animation: Vanta.js
+
+Sound: Tone.js (for simple audio feedback and toggleable background music)
+
+Data Persistence: Browser Local Storage (for saving itineraries)
+
+API: Utilize a public travel-related API for fetching data (e.g., Google Places, TripAdvisor, or a mock API for demonstration purposes).
