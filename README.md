@@ -49,7 +49,9 @@
 - **Sound Effects**: Tone.js  
 - **Data Persistence**: Local Storage  
 - **APIs**: Public travel APIs like Google Places, TripAdvisor, or mock data
-<img width="1909" height="1021" alt="image" src="https://github.com/user-attachments/assets/03f301b6-ed59-4ee6-8e68-5884c25714" />
+
+<img width="1901" height="745" alt="image" src="https://github.com/user-attachments/assets/9e5f1c17-415b-4d43-9c6c-f16434e7d188" />
+
 <img width="1903" height="1018" alt="image" src="https://github.com/user-attachments/assets/484b29d4-bf69-4144-8992-f685334f3dfb" />
 
 ---
