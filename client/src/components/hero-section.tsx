@@ -119,6 +119,7 @@ export default function HeroSection({ onDestinationSelect }: HeroSectionProps) {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.8 }}
+            className="space-y-4"
           >
             <Button 
               onClick={() => document.getElementById('destinations')?.scrollIntoView({ behavior: 'smooth' })}
@@ -126,6 +127,9 @@ export default function HeroSection({ onDestinationSelect }: HeroSectionProps) {
             >
               Start Your Journey
             </Button>
+            <div className="text-center text-sm text-gray-400 max-w-md mx-auto">
+              ✨ Try searching for "tokyo" or "singapore" above, or click any destination card below to see live hotels, restaurants, attractions, and weather data!
+            </div>
           </motion.div>
         </motion.div>
       </section>

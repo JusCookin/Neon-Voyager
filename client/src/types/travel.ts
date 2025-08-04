@@ -1,12 +1,4 @@
-export interface TravelData {
-  destinations: Destination[];
-  hotels: Hotel[];
-  restaurants: Restaurant[];
-  attractions: Attraction[];
-  weather: Weather[];
-  itineraries: Itinerary[];
-}
-
+// Travel-related type definitions
 export interface Destination {
   id: string;
   name: string;
@@ -14,7 +6,10 @@ export interface Destination {
   price: number;
   rating: number;
   imageUrl: string;
-  location: { lat: number; lng: number };
+  location: {
+    lat: number;
+    lng: number;
+  };
   category: string;
 }
 
@@ -49,7 +44,10 @@ export interface Attraction {
   category: string;
   duration: string;
   imageUrl: string;
-  location: { lat: number; lng: number };
+  location: {
+    lat: number;
+    lng: number;
+  };
 }
 
 export interface Weather {
@@ -65,16 +63,15 @@ export interface Weather {
 export interface Itinerary {
   id: string;
   name: string;
-  destinationId: string;
-  items: Array<{ id: string; type: string; time: string }>;
-  createdAt: string;
+  description: string;
+  items: ItineraryItem[];
 }
 
 export interface ItineraryItem {
   id: string;
-  type: 'hotel' | 'restaurant' | 'attraction';
+  type: 'attraction' | 'hotel' | 'restaurant';
   name: string;
-  duration: string;
-  category: string;
-  imageUrl: string;
+  duration?: string;
+  category?: string;
+  imageUrl?: string;
 }

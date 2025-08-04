@@ -6,6 +6,7 @@ import DestinationDetail from '@/components/destination-detail';
 import ItineraryBuilder from '@/components/itinerary-builder';
 import Footer from '@/components/footer';
 import AudioPlayer from '@/components/audio-player';
+import AppStatus from '@/components/app-status';
 import { useItinerary } from '@/hooks/use-itinerary';
 
 export default function Home() {
@@ -51,6 +52,8 @@ export default function Home() {
       <Footer />
       
       <AudioPlayer />
+      
+      <AppStatus />
     </div>
   );
 }
